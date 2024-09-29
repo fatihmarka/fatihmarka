@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Strobe Flashlight</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400&display=swap">
+    <style>
+        :root {
+            --x: 50%;
+            --y: 50%;
+            --size: 35vmin;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        html,
+        body {
+            background-color: black;
+            overscroll-behavior-x: none;
+            overscroll-behavior-y: none;
+            overflow: hidden;
+        }
+        body {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            font-family: "Lexend", serif;
+            text-align: center;
+            line-height: 1;
+            color: gray;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        main {
+            position: relative;
+        }
+        h1 {
+            font-size: clamp(25px, 8vw, 50px);
+        }
+        p {
+            color: white;
+        }
+        #flashlight {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            isolation: isolate;
+            pointer-events: none;
+        }
+        #bg,
+        #bg_mask {
+            position: absolute;
+            top: 0;
+            right: 0;
+            bottom: 0;
+            left: 0;
+            background: url(https://images.unsplash.com/photo-1561344640-2453889cde5b?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMjM4NDZ8MHwxfHJhbmRvbXx8fHx8fHx8fDE3MTgzMzI3NjR8&ixlib=rb-4.0.3&q=85)
+                no-repeat center / cover;
+            pointer-events: none;
+        }
+        #bg {
+            filter: brightness(0.8);
+        }
+        #bg_mask {
+            --light: 1;
+            mask-image: radial-gradient(
+                circle var(--size) at var(--x) var(--y),
+                black,
+                rgba(0, 0, 0, 0)
+            );
+            filter: brightness(var(--light));
+            animation: flash 1.5s ease-in-out infinite;
+            mix-blend-mode: overlay;
+        }
+        @keyframes flash {
+            from {
+                --light: 5;
+            }
+            to {
+                --light: 1;
+            }
+        }
+        .loading {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            color: white;
+            text-align: center;
+            font-size: 20px;
+        }
+        .instagram-link {
+            color: white;
+            text-decoration: underline; /* Altını çizer */
+            cursor: pointer; /* Fareyle üzerine gelince el işareti yapar */
+        }
+    </style>
+</head>
+<body>
+    <p class="loading">image loading...</p>
+    <div id="flashlight">
+        <div id="bg"></div>
+        <div id="bg_mask"></div>
+    </div>
+
+    <main>
+        <h1> FATİH MARKA</h1>
+        <p class="instagram-link" onclick="window.open('https://www.instagram.com/fatihhsadak?igsh=b3ozZGw5ejM3OTdi', '_blank');">@fatihhsadak</p>
+    </main>
+
+    <script>
+        "use strict";
+        console.clear();
+
+        var root = document.querySelector(":root");
+        function spotlight(e) {
+            root.style.setProperty("--x", e.pageX + "px");
+            root.style.setProperty("--y", e.pageY + "px");
+        }
+        window.addEventListener("pointermove", spotlight);
+        window.addEventListener("pointerdown", spotlight);
+    </script>
+</body>
+</html>
